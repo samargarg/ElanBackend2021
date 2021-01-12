@@ -116,7 +116,7 @@ class CreateNewTask(APIView):
         description = request.data.get('description')
         assigner = user
         completed = False
-        points = int(request.data.get('points'))
+        max_points = int(request.data.get('max_points'))
 
         for ambassador in User.objects.filter(is_staff=False).all():
             task = Task.objects.create(serial=serial,
@@ -124,10 +124,62 @@ class CreateNewTask(APIView):
                                        description=description,
                                        assigner=assigner,
                                        completed=completed,
-                                       points=points,
+                                       max_points=max_points,
                                        assignee=ambassador)
             task.save()
 
-        return Response({'title': title, 'description': description, 'assigner': ManagerDetail.objects.get(email=assigner.email).name, 'points': points}, status=status.HTTP_201_CREATED)
+        return Response({'title': title, 'description': description, 'assigner': ManagerDetail.objects.get(email=assigner.email).name, 'max_points': max_points}, status=status.HTTP_201_CREATED)
 
 
+class TaskDetailsForAmbassador(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, task_serial):
+        user = Token.objects.get(key=request.auth.key).user
+        task_query = user.tasks_assigned_to_me.filter(serial=task_serial)
+        if not task_query.count():
+            return Response({"detail": "Invalid task serial id."}, status=status.HTTP_404_NOT_FOUND)
+        task = task_query.first()
+        serializer = TaskSerializer(task)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ChangeTaskToCompleted(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, task_serial):
+        user = Token.objects.get(key=request.auth.key).user
+        task_query = user.tasks_assigned_to_me.filter(serial=task_serial)
+        if not task_query.count():
+            return Response({"detail": "Invalid task serial id."}, status=status.HTTP_404_NOT_FOUND)
+        task = task_query.first()
+        task.completed = True
+        task.save()
+        serializer = TaskSerializer(task)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AwardMarksForTask(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, task_serial, ambassador_id):
+        user = Token.objects.get(key=request.auth.key).user
+        if not user.is_staff:
+            return Response({"detail": "Ambassadors are not authorized."}, status=status.HTTP_401_UNAUTHORIZED)
+        ambassador = User.objects.get(pk=ambassador_id)
+
+        task_query = Task.objects.filter(serial=task_serial, assignee=ambassador)
+        if not task_query.count():
+            return Response({"detail": "Invalid ambassador or task serial id."}, status=status.HTTP_404_NOT_FOUND)
+        task = task_query.first()
+        points_awarded = int(request.data.get('points_awarded'))
+        task.points_awarded = points_awarded
+        task.save()
+        ambassador_detail = AmbassadorDetail.objects.get(email=ambassador.email)
+        ambassador_detail.score += points_awarded
+        ambassador_detail.save()
+        serializer = TaskSerializer(task)
+        return Response(serializer.data, status=status.HTTP_200_OK)

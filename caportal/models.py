@@ -30,7 +30,8 @@ class Task(models.Model):
     assigner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="tasks_assigned_by_me")
     assignee = models.ForeignKey(User, on_delete=models.PROTECT, related_name="tasks_assigned_to_me")
     completed = models.BooleanField()
-    points = models.IntegerField()
+    max_points = models.IntegerField()
+    points_awarded = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
