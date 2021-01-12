@@ -131,6 +131,33 @@ class CreateNewTask(APIView):
         return Response({'title': title, 'description': description, 'assigner': ManagerDetail.objects.get(email=assigner.email).name, 'max_points': max_points}, status=status.HTTP_201_CREATED)
 
 
+class GetAllTasksForAmbassador(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        user = Token.objects.get(key=request.auth.key).user
+        tasks = user.tasks_assigned_to_me.all()
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GetAllTasksForManager(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        user = Token.objects.get(key=request.auth.key).user
+        if not user.is_staff:
+            return Response({"detail": "Ambassadors are not authorized."}, status=status.HTTP_401_UNAUTHORIZED)
+        all_tasks = Task.objects.all()
+        unique_tasks = []
+        serials = []
+        for task in all_tasks:
+            if task.serial not in serials:
+                unique_tasks.append({'serial': task.serial, 'title': task.title, 'description': task.description, 'max_points': task.max_points})
+                serials.append(task.serial)
+        return Response(unique_tasks, status=status.HTTP_200_OK)
+
+
 class TaskDetailsForAmbassador(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
