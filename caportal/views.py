@@ -14,6 +14,7 @@ from ElanBackend2021.settings import AUTH0_DOMAIN
 
 class AddNewAmbassador(APIView):
     def post(self, request):
+        print(request.data.get('access_token'))
         access_token = request.data.get('access_token')
         auth0_domain = AUTH0_DOMAIN
         url = f'https://{auth0_domain}/userinfo'
@@ -60,6 +61,34 @@ class GetMyAmbassadarProfile(APIView):
             ambassador_detail = AmbassadorDetail.objects.get(email=user.email)
             serializer = AmbassadorDetailSerializer(ambassador_detail)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        except AmbassadorDetail.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateMyAmbassadorProfile(APIView):
+    authentication_classes = [TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
+
+    def post(self, request):
+        user = Token.objects.get(key=request.auth.key).user
+
+        try:
+            ambassador = AmbassadorDetail.objects.get(email=user.email)
+            name = request.data.get("name",ambassador.name)
+            phone = request.data.get("phone",ambassador.phone)
+            institute = request.data.get("institute",ambassador.institute)
+            instagram = request.data.get("instagram",ambassador.instagram)
+            facebook = request.data.get("facebook",ambassador.facebook)
+
+            ambassador.name = name
+            ambassador.phone=phone
+            ambassador.institute=institute
+            ambassador.instagram=instagram
+            ambassador.facebook=facebook
+
+            ambassador.save()
+
+            return Response(status=status.HTTP_200_OK)
         except AmbassadorDetail.DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -142,7 +171,7 @@ class GetAllTasksForAmbassador(APIView):
 
 
 class GetAllTasksForManager(APIView):
-    authentication_classes = [TokenAuthentication]
+    #authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self, request):
         user = Token.objects.get(key=request.auth.key).user
