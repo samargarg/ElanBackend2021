@@ -26,7 +26,7 @@ SECRET_KEY = '@*^af*7c^4r@6o&2xm_#ma$fy%yyv9e=ikn^fqrwjj+5=t3z*_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["elan-ca-backend-2021.herokuapp.com"]
+ALLOWED_HOSTS = ["elan-ca-backend-2021.herokuapp.com",'127.0.0.1']
 
 
 # Application definition
