@@ -35,3 +35,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    body = models.CharField(max_length=500)
+    writer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="comments")
+    by_manager = models.BooleanField(default=False)
+    time = models.DateTimeField(auto_now_add=True)
+    is_reply = models.BooleanField(default=False)
+    replied_to = models.CharField(max_length=500, blank=True, null=True)

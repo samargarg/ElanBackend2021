@@ -210,3 +210,32 @@ class AwardMarksForTask(APIView):
         ambassador_detail.save()
         serializer = TaskSerializer(task)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AddComment(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = Token.objects.get(key=request.auth.key).user
+        body = request.data.get('body')
+        by_manager = user.is_staff
+        replied_to = request.data.get('replied_to')
+        if replied_to:
+            is_reply = True
+        else:
+            is_reply = False
+        comment = Comment.objects.create(body=body, writer=user, by_manager=by_manager, replied_to=replied_to, is_reply=is_reply)
+        comment.save()
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class GetAllComments(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        comments = Comment.objects.all().order_by('time')
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
