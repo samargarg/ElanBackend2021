@@ -12,5 +12,7 @@ urlpatterns = [
     path('getAllTasksForManager/', views.GetAllTasksForManager.as_view(), name="getAllTasksForManager"),
     path('taskDetailsForAmbassador/<int:task_serial>/', views.TaskDetailsForAmbassador.as_view(), name="taskDetailsForAmbassador"),
     path('changeTaskToCompleted/<int:task_serial>/', views.ChangeTaskToCompleted.as_view(), name="changeTaskToCompleted"),
-    path('awardMarksForTask/<int:task_serial>/<int:ambassador_id>/', views.AwardMarksForTask.as_view(), name="awardMarksForTask")
+    path('awardMarksForTask/<int:task_serial>/<int:ambassador_id>/', views.AwardMarksForTask.as_view(), name="awardMarksForTask"),
+    path('addComment/', views.AddComment.as_view(), name="addComment"),
+    path('getAllComments/', views.GetAllComments.as_view(), name="getAllComments")
 ]
