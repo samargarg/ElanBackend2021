@@ -43,3 +43,6 @@ class Comment(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     is_reply = models.BooleanField(default=False)
     replied_to = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return self.body
