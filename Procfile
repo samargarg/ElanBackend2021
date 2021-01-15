@@ -1,1 +1,0 @@
-web: gunicorn ElanBackend2021.wsgi --log-file -
