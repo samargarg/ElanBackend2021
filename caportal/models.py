@@ -18,6 +18,7 @@ class AmbassadorDetail(models.Model):
     facebook = models.CharField(max_length=200, blank=True, null=True)
     institute = models.CharField(max_length=200, blank=True, null=True)
     score = models.IntegerField()
+    is_profile_complete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -43,3 +44,6 @@ class Comment(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     is_reply = models.BooleanField(default=False)
     replied_to = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return self.body
