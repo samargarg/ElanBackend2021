@@ -197,7 +197,7 @@ class GetAllTasksForAmbassador(APIView):
 
 
 class GetAllTasksForManager(APIView):
-    #authentication_classes = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self, request):
         user = Token.objects.get(key=request.auth.key).user
