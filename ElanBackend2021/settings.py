@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'caportal',
+    'mainsite',
     'rest_framework',
     'rest_framework.authtoken'
 ]
