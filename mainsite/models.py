@@ -17,11 +17,9 @@ class ContactDetail(models.Model):
     ]
     name = models.CharField(max_length=45)
     email = models.EmailField(max_length=200)
-    institute = models.CharField(max_length=200)
     phone = models.CharField(max_length=10)
-    instagram = models.CharField(max_length=200, blank=True, null=True)
-    facebook = models.CharField(max_length=200, blank=True, null=True)
     domain = models.CharField(max_length=45, choices=DOMAIN_CHOICES)
+    message = models.CharField(max_length=500)
 
     def __str__(self):
         return self.name

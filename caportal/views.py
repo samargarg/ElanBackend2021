@@ -131,6 +131,35 @@ class CreateNewTask(APIView):
         return Response({'title': title, 'description': description, 'assigner': ManagerDetail.objects.get(email=assigner.email).name, 'max_points': max_points}, status=status.HTTP_201_CREATED)
 
 
+class AddSelectiveTasksForUsers(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        user = Token.objects.get(key=request.auth.key).user
+        if not user.is_staff:
+            return Response({"detail": "Ambassadors are not authorized."}, status=status.HTTP_401_UNAUTHORIZED)
+        serial_array = request.data.get('serial_array')[1: -1].split(', ')
+        for serial in serial_array:
+            try:
+                task_data = Task.objects.get(serial=serial)
+            except Task.DoesNotExist:
+                continue
+            for ambassador in User.objects.filter(is_staff=False).all():
+                if not (ambassador.tasks_assigned_to_me.filter(serial=serial).count()):
+                    task = Task.objects.create(serial=serial,
+                                               title=task_data.title,
+                                               description=task_data.description,
+                                               assigner=task_data.assigner,
+                                               completed=False,
+                                               max_points=task_data.max_points,
+                                               assignee=ambassador)
+                    task.save()
+
+
+        return Response("Success", status=status.HTTP_201_CREATED)
+
+
+
 class GetAllTasksForAmbassador(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
