@@ -9,6 +9,7 @@ urlpatterns = [
     path('getAllAmbassadorProfiles/', views.GetAllAmbassadorProfiles.as_view(), name="getAllAmbassadorProfiles"),
     path('getLeaderBoardRecords/', views.GetLeaderBoardRecords.as_view(), name="getLeaderBoardRecords"),
     path('createNewTask/', views.CreateNewTask.as_view(), name="createNewTask"),
+    path('addSelectiveTasksForUsers/', views.AddSelectiveTasksForUsers.as_view(), name="addSelectiveTasksForUsers"),
     path('getAllTasksForAmbassador/', views.GetAllTasksForAmbassador.as_view(), name="getAllTasksForAmbassador"),
     path('getAllTasksForManager/', views.GetAllTasksForManager.as_view(), name="getAllTasksForManager"),
     path('taskDetailsForAmbassador/<int:task_serial>/', views.TaskDetailsForAmbassador.as_view(), name="taskDetailsForAmbassador"),

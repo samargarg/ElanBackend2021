@@ -7,14 +7,6 @@ from .serializers import *
 
 class NewContactDetail(APIView):
     def post(self, request):
-        # name = request.data.get('name')
-        # email = request.data.get('email')
-        # institute = request.data.get('institute')
-        # phone = request.data.get('phone')
-        # instagram = request.data.get('instagram')
-        # facebook = request.data.get('facebook')
-        # domain = request.data.get('domain')
-
 
         serializer = ContactDetailSerializer(data=request.POST)
         if serializer.is_valid():
