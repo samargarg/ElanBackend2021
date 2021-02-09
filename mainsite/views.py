@@ -45,7 +45,7 @@ def send_email_function(data):
 
 
     message = MIMEMultipart("alternative")
-    message["Subject"] = "New Query"
+    message["Subject"] = f"{data['domain']} Query"
     message["From"] = SENDER_EMAIL
     message["To"] = receiver_email
 
