@@ -21,6 +21,16 @@ class NewContactDetail(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class NewRegistration(APIView):
+    def post(self, request):
+        serializer = ELANRegistrationSerializer(data=request.POST)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 def send_email_function(data):
     EMAILS = {
         'PR': 'krati@elan.org.in',

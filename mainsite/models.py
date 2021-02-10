@@ -24,3 +24,11 @@ class ContactDetail(models.Model):
     def __str__(self):
         return self.name
 
+class ELANRegistration(models.Model):
+    name = models.CharField(max_length=45)
+    institute = models.CharField(max_length=200)
+    phone = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
