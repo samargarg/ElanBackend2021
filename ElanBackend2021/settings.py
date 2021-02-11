@@ -29,13 +29,13 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECRET_KEY = '@*^af*7c^4r@6o&2xm_#ma$fy%yyv9e=ikn^fqrwjj+5=t3z*_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = True#os.getenv("DEBUG", "False") == "True"
 # DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 # ALLOWED_HOSTS = []
 
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+DEVELOPMENT_MODE = True#os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
 
 # Application definition
@@ -53,6 +53,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken'
 ]
 
+
+
+
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -64,7 +68,7 @@ REST_FRAMEWORK = {
 AUTH0_DOMAIN = 'phantom168.us.auth0.com'
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',pip
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -72,6 +76,32 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+    "https://ca.elan.org.in",
+]
+
+CORS_ORIGIN_WHITELIST=['https://ca.elan.org.in']
+
+if DEVELOPMENT_MODE:
+    INSTALLED_APPS += ['corsheaders']
+    MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
+    CORS_ALLOWED_ORIGINS += [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+    CORS_ORIGIN_WHITELIST += [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        'localhost:3000',
+    ]
+    CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+
 
 ROOT_URLCONF = 'ElanBackend2021.urls'
 

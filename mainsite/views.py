@@ -11,11 +11,10 @@ from email.mime.multipart import MIMEMultipart
 
 class NewContactDetail(APIView):
     def post(self, request):
-
-        serializer = ContactDetailSerializer(data=request.POST)
+        serializer = ContactDetailSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            send_email_function(serializer.data)
+            #send_email_function(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -23,7 +22,7 @@ class NewContactDetail(APIView):
 
 class NewRegistration(APIView):
     def post(self, request):
-        serializer = ELANRegistrationSerializer(data=request.POST)
+        serializer = ELANRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
