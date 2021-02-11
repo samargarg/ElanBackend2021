@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'caportal',
     'mainsite',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
     'corsheaders',
 ]
 
