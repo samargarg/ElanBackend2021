@@ -68,7 +68,7 @@ REST_FRAMEWORK = {
 AUTH0_DOMAIN = 'phantom168.us.auth0.com'
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',pip
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
