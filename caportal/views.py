@@ -194,6 +194,7 @@ class AddSelectiveTasksForUsers(APIView):
         if not user.is_staff:
             return Response({"detail": "Ambassadors are not authorized."}, status=status.HTTP_401_UNAUTHORIZED)
         print(request,request.data,request.data.get('serial_array'))
+        print(request.data.get('serial_array')[1:-1])
         serial_array = request.data.get('serial_array')[1: -1].split(', ')
         for serial in serial_array:
             try:
