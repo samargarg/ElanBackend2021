@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'mainsite',
     'rest_framework',
     'rest_framework.authtoken'
+    'corsheaders',
 ]
 
 
@@ -77,21 +78,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False
+# CORS_ALLOW_ALL_ORIGINS = False
+#
+# CORS_ALLOWED_ORIGINS = [
+#     "https://ca.elan.org.in",
+# ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://ca.elan.org.in",
-]
-
-CORS_ORIGIN_WHITELIST=['https://ca.elan.org.in']
+CORS_ORIGIN_WHITELIST = ['https://ca.elan.org.in','http://localhost','http://localhost:3000']
 
 if DEVELOPMENT_MODE:
     INSTALLED_APPS += ['corsheaders']
     MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
-    CORS_ALLOWED_ORIGINS += [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ]
+    # CORS_ALLOWED_ORIGINS += [
+    #     "http://localhost:3000",
+    #     "http://127.0.0.1:3000",
+    # ]
     CORS_ORIGIN_WHITELIST += [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
@@ -187,4 +188,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
