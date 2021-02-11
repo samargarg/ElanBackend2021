@@ -29,13 +29,13 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECRET_KEY = '@*^af*7c^4r@6o&2xm_#ma$fy%yyv9e=ikn^fqrwjj+5=t3z*_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True#os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 # DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 # ALLOWED_HOSTS = []
 
-DEVELOPMENT_MODE = True#os.getenv("DEVELOPMENT_MODE", "False") == "True"
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
 
 # Application definition

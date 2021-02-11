@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="896f3ba1-f372-4e9b-8a15-c76f0b7d2bd1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ElanBackend2021/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ElanBackend2021/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +81,7 @@
       <workItem from="1612965393397" duration="9119000" />
       <workItem from="1613046691027" duration="2005000" />
       <workItem from="1613056745028" duration="795000" />
-      <workItem from="1613070960317" duration="287000" />
+      <workItem from="1613070960317" duration="837000" />
     </task>
     <servers />
   </component>
