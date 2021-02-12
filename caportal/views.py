@@ -196,9 +196,11 @@ class AddSelectiveTasksForUsers(APIView):
         serial_array = request.data.get('serial_array')[1: -1].split(',')
         for serial in serial_array:
             try:
-                task_data = Task.objects.get(serial=serial)
+                task_data = Task.objects.filter(serial=serial)[0]
+            except IndexError:
+                return Response({"detail":"Task %s does not exist"%serial},status=status.HTTP_404_NOT_FOUND)
             except Task.DoesNotExist:
-                continue
+                return Response({"detail":"No task exists"}, status=status.HTTP_404_NOT_FOUND)
             for ambassador in User.objects.filter(is_staff=False).all():
                 if not (ambassador.tasks_assigned_to_me.filter(serial=serial).count()):
                     task = Task.objects.create(serial=serial,
