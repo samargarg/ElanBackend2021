@@ -87,8 +87,6 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = ['https://ca.elan.org.in','http://localhost','http://localhost:3000']
 
 if DEVELOPMENT_MODE:
-    INSTALLED_APPS += ['corsheaders']
-    MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
     # CORS_ALLOWED_ORIGINS += [
     #     "http://localhost:3000",
     #     "http://127.0.0.1:3000",
@@ -96,7 +94,6 @@ if DEVELOPMENT_MODE:
     CORS_ORIGIN_WHITELIST += [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-        'localhost:3000',
     ]
     CORS_ALLOW_ALL_ORIGINS = True
 
