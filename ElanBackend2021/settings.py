@@ -81,11 +81,11 @@ MIDDLEWARE = [
 
 # CORS_ALLOW_ALL_ORIGINS = False
 #
-# CORS_ALLOWED_ORIGINS = [
-#     "https://ca.elan.org.in",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "https://ca.elan.org.in",
+]
 
-CORS_ORIGIN_WHITELIST = ['https://ca.elan.org.in','http://localhost','http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['https://ca.elan.org.in','http://localhost','http://localhost:3000',]
 
 if DEVELOPMENT_MODE:
     # CORS_ALLOWED_ORIGINS += [
