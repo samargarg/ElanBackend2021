@@ -70,6 +70,7 @@ AUTH0_DOMAIN = 'phantom168.us.auth0.com'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -96,7 +97,6 @@ if DEVELOPMENT_MODE:
         "http://127.0.0.1:3000",
     ]
     CORS_ALLOW_ALL_ORIGINS = True
-
 
 
 
