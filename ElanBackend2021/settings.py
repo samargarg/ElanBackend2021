@@ -69,8 +69,8 @@ REST_FRAMEWORK = {
 AUTH0_DOMAIN = 'phantom168.us.auth0.com'
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -83,9 +83,10 @@ MIDDLEWARE = [
 #
 CORS_ALLOWED_ORIGINS = [
     "https://ca.elan.org.in",
+    "https://elan.org.in",
 ]
 
-CORS_ORIGIN_WHITELIST = ['https://ca.elan.org.in','http://localhost','http://localhost:3000',]
+CORS_ORIGIN_WHITELIST = ['https://ca.elan.org.in','https://elan.org.in','http://localhost','http://localhost:3000',]
 
 if DEVELOPMENT_MODE:
     # CORS_ALLOWED_ORIGINS += [
