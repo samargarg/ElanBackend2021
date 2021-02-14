@@ -334,7 +334,9 @@ class UpdateAmbassadorScore(APIView):
         for ambassador in ambassadors:
             task_query = Task.objects.filter(assignee=ambassador)
             if not task_query.count():
+                print("Before")
                 continue
+                print("After")
             score = 0
             for task in task_query.all():
                 print(task)
