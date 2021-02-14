@@ -332,6 +332,8 @@ class UpdateAmbassadorScore(APIView):
         ambassadors = User.objects.filter(is_staff=False).all()
         print("Hola")
         for ambassador in ambassadors:
+            if not ambassador.tasks_assigned_to_me.count():
+                continue
             try:
                 task_query = Task.objects.filter(assignee=ambassador)
             except Task.DoesNotExist:
@@ -348,4 +350,5 @@ class UpdateAmbassadorScore(APIView):
             ambassador_detail.score = score
             ambassador_detail.save()
         return Response("Success", status=status.HTTP_200_OK)
+
 
