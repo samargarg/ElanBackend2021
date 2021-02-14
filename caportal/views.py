@@ -330,13 +330,15 @@ class UpdateAmbassadorScore(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
         ambassadors = User.objects.filter(is_staff=False).all()
+        print("Hola")
         for ambassador in ambassadors:
             task_query = Task.objects.filter(assignee=ambassador)
             if not task_query.count():
                 continue
             score = 0
             for task in task_query.all():
-                score  += task.points_awarded
+                print(task)
+                score += task.points_awarded
             ambassador_detail = AmbassadorDetail.objects.get(email=ambassador.email)
             ambassador_detail.score = score
             ambassador_detail.save()
