@@ -325,3 +325,18 @@ class GetAllComments(APIView):
         comments = Comment.objects.all().order_by('time')
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+class UpdateAmbassadorScore(APIView):
+    def post(self, request):
+        ambassadors = User.objects.filter(is_staff=False).all()
+        for ambassador in ambassadors:
+            task_query = Task.objects.filter(assignee=ambassador)
+            if not task_query.count():
+                continue
+            score = 0
+            for task in task_query.all():
+                score  += task.points_awarded
+            ambassador_detail = AmbassadorDetail.objects.get(email=ambassador.email)
+            ambassador_detail.score = score
+            ambassador_detail.save()
+        return Response("Success", status=status.HTTP_200_OK)
+
