@@ -16,5 +16,6 @@ urlpatterns = [
     path('changeTaskToCompleted/<int:task_serial>/', views.ChangeTaskToCompleted.as_view(), name="changeTaskToCompleted"),
     path('awardMarksForTask/<int:task_serial>/<int:ambassador_id>/', views.AwardMarksForTask.as_view(), name="awardMarksForTask"),
     path('addComment/', views.AddComment.as_view(), name="addComment"),
-    path('getAllComments/', views.GetAllComments.as_view(), name="getAllComments")
+    path('getAllComments/', views.GetAllComments.as_view(), name="getAllComments"),
+    path('updateAmbassadorScore/', views.UpdateAmbassadorScore.as_view(), name="updateAmbassadorScore")
 ]
