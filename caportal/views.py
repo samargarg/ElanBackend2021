@@ -326,6 +326,8 @@ class GetAllComments(APIView):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 class UpdateAmbassadorScore(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         ambassadors = User.objects.filter(is_staff=False).all()
         for ambassador in ambassadors:
