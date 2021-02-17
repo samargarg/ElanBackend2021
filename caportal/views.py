@@ -329,26 +329,43 @@ class UpdateAmbassadorScore(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request):
-        ambassadors = User.objects.filter(is_staff=False).all()
+        ambs = AmbassadorDetail.objects.all()
+        #ambassadors = User.objects.filter(is_staff=False).all()
         print("Hola")
-        for ambassador in ambassadors:
-            if not ambassador.tasks_assigned_to_me.count():
-                continue
+        message = 'Error in '
+        error_count = 0
+        ambassador_count = 0
+        for amsdr in ambs:
             try:
-                task_query = Task.objects.filter(assignee=ambassador)
-            except Task.DoesNotExist:
+                ambassador = User.objects.get(username=amsdr.email)
+
+                if not ambassador.tasks_assigned_to_me.count():
+                    continue
+                try:
+                    task_query = Task.objects.filter(assignee=ambassador)
+                except Task.DoesNotExist:
+                    continue
+                if not task_query.count():
+                    print("Before")
+                    continue
+                    print("After")
+                score = 0
+                for task in task_query.all():
+                    print(task)
+                    score += task.points_awarded
+                #ambassador_detail = AmbassadorDetail.objects.get(email=ambassador.email)
+                amsdr.score = score
+                amsdr.save()
+                ambassador_count+=1
+
+
+            except:
+                error_count+=1
                 continue
-            if not task_query.count():
-                print("Before")
-                continue
-                print("After")
-            score = 0
-            for task in task_query.all():
-                print(task)
-                score += task.points_awarded
-            ambassador_detail = AmbassadorDetail.objects.get(email=ambassador.email)
-            ambassador_detail.score = score
-            ambassador_detail.save()
-        return Response("Success", status=status.HTTP_200_OK)
+
+        if error_count == 0:
+            return Response("Success: " + str(ambassador_count), status=status.HTTP_200_OK)
+        return Response("Error in " + str(error_count), status=status.HTTP_400_BAD_REQUEST)
+
 
 

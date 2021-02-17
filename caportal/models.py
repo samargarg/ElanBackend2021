@@ -35,7 +35,13 @@ class Task(models.Model):
     points_awarded = models.IntegerField(default=0)
 
     def __str__(self):
-        return "%s - %s"%(self.title, AmbassadorDetail.objects.get(email=self.assignee.username).email)
+        name = 'Error'
+        try:
+            name = AmbassadorDetail.objects.get(email=self.assignee.username).email
+        except:
+            name = self.asignee.username
+        finally:
+            return "%s - %s"%(self.title, name)
 
 class Comment(models.Model):
     body = models.CharField(max_length=500)
